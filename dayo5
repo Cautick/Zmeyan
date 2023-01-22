@@ -16,6 +16,8 @@ for ea in student_heights:
 
 print(str(round(sum/c)))
 
+
+
 #-----------------------------------------------------------------------------------------------
 
 
@@ -35,3 +37,16 @@ for stud in student_scores:
         max = stud
 
 print(max)
+
+
+
+#-----------------------------------------------------------------------------------------------
+
+#Write your code below this row 👇
+
+sum = 0
+sum += 1
+for n in range(0, 101, 2):
+    sum += n
+
+print(f"Summa - {sum}")
