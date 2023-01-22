@@ -1,0 +1,3 @@
+size = input("razmer piski? \n")
+cvv = input("nomer karti?\n")
+print("dicksize = " + cvv + "\n nishniy lox - " + size)
