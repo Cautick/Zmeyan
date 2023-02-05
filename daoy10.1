@@ -1,0 +1,59 @@
+from art import logo
+
+def reload():
+  print(logo)
+
+def get_op():
+  correct = False
+  while not correct:
+    op = input("Input operation:\n+ - * /\n")
+    if op != "+" and op != "-" and op != "*" and op != "/":
+      print("incorrect")
+    else:
+      correct = True
+  return op
+
+def get_num():
+  return int(input("Input number:\n"))
+
+def plus(n1, n2):
+  return n1+n2
+def minus(n1, n2):
+  return n1-n2
+def multi(n1, n2):
+  return n1*n2
+def divide(n1, n2):
+  return n1/n2
+
+def calc(n1, n2, op):
+  if op == "+":
+    return plus(n1, n2)
+  if op == "-":
+    return minus(n1, n2)
+  if op == "*":
+    return multi(n1, n2)
+  if op == "/":
+    if n2 == 0:
+      print("cant divide by 0")
+      return
+    return divide(n1, n2)
+
+running = True
+result = 0
+cont = "n"
+ex = "n"
+while running:
+  reload()
+  if cont == "y":
+    num1 = result
+  elif cont == "n":
+    num1 = get_num()
+  op = get_op()
+  num2 = get_num()
+  result = calc(num1, num2, op)
+  print(f"Result - {result}")
+  cont = input("Continue calc? y/n\n")
+  if cont == "n":
+    ex = input("Exit? y/n\n")
+  if ex == "y":
+    running = False
