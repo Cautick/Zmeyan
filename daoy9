@@ -1,0 +1,29 @@
+from replit import clear
+#HINT: You can call clear() to clear the output in the console.
+
+
+from art import logo
+print(logo)
+
+allbids = {}
+
+def newbid():
+  name = input("TVOE IMYA\n")
+  bid = input("skolko stavish\n")
+  allbids[name] = int(bid)
+
+nobidsleft = False
+while not nobidsleft:
+  newbid()
+  more = input("Eshe zhelayushie? yes/no\n")
+  if more == "no":
+    nobidsleft = True
+
+winname = ""
+winscore = 0
+for chel in allbids:
+  if winscore < allbids[chel]:
+    winname = chel
+    winscore = allbids[chel]
+
+print(f"Pobeditel - {winname}, schet - {winscore}")
