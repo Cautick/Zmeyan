@@ -1,0 +1,138 @@
+############### Blackjack Project #####################
+
+#Difficulty Normal 😎: Use all Hints below to complete the project.
+#Difficulty Hard 🤔: Use only Hints 1, 2, 3 to complete the project.
+#Difficulty Extra Hard 😭: Only use Hints 1 & 2 to complete the project.
+#Difficulty Expert 🤯: Only use Hint 1 to complete the project.
+
+############### Our Blackjack House Rules #####################
+
+## The deck is unlimited in size. 
+## There are no jokers. 
+## The Jack/Queen/King all count as 10.
+## The the Ace can count as 11 or 1.
+## Use the following list as the deck of cards:
+## cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+## The cards in the list have equal probability of being drawn.
+## Cards are not removed from the deck as they are drawn.
+## The computer is the dealer.
+
+from art import logo 
+from replit import clear
+import random
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+player = []
+comp = []
+player_state = ""
+comp_state = ""
+
+def newmatch():
+  clear()
+  print(logo)
+  player.clear()
+  comp.clear()
+  global player_state
+  player_state = ""
+  global comp_state
+  comp_state = ""
+  
+def drawcard(drawer = []):
+  drawer.append(random.choice(cards))
+
+def getscore(holder = []):
+  score = 0
+  aces = 0
+  for card in holder:
+    score += card
+    if card == 11:
+      aces += 1
+  if aces > 0:
+    for x in range(0, aces):
+      if score > 21:
+        aces -= 1
+        score -= 10
+  return score
+
+def ask_to_draw(player = []):
+  global player_state
+  decision = True
+  while decision:
+    print(f"Your cards: {player}. Total: {getscore(player)}")
+    ans = input("Draw another card? y/n\n")
+    if ans == "y":
+      drawcard(player)
+      score = getscore(player)
+      if score > 21:
+        print(f"Went over. {score}")
+        player_state = "lose"
+        decision = False
+    if ans == "n":
+      decision = False
+
+
+running = True
+while running:
+  newmatch()
+  
+  drawcard(comp)
+  drawcard(player)
+  drawcard(player)
+  
+  player_score = getscore(player)
+  comp_score = getscore(comp)
+
+  if getscore(player) == 21:
+    player_state = "BJ"
+    print(f"Your cards: {player}. Total: {getscore(player)}")
+  if player_state != "BJ":
+    ask_to_draw(player)
+    
+  print(f"Computer cards: {comp}. Total: {getscore(comp)}")
+
+  if player_state != "lose":
+    while getscore(comp) < 17:
+      drawcard(comp)
+      if getscore(comp) == 21:
+        comp_state = "BJ"
+      if getscore(comp) > 21:
+         comp_state = "lose"
+    print(f"Computer cards: {comp}. Total: {getscore(comp)}")
+        
+  player_score = getscore(player)
+  comp_score = getscore(comp)
+  
+
+  if player_state != "lose" and comp_state != "lose":
+    if player_score > comp_score:
+      comp_state = "lose"
+      player_state = "win"
+    if player_score < comp_score:
+      comp_state = "win"
+      player_state = "lose"
+    if player_score == comp_score:
+      if player_state == "BJ" and comp_state != "BJ":
+        comp_state = "lose"
+        player_state = "win"
+      if comp_state == "BJ" and player_state != "BJ":
+        comp_state = "win"
+        player_state = "lose"
+      player_state = "draw"
+      comp_state = "draw"
+    
+  if comp_state == "lose":
+    print(f"You win! {player_score}-{comp_score}")
+  if player_state == "lose":
+    print(f"You lost! {player_score}-{comp_score}")
+  if player_state == "draw":
+    print(f"Draw! {player_score}-{comp_score}")
+
+
+  
+
+  cont = input("Play again? y/n \n")
+  if cont == "n":
+    running = False
+  elif cont != "y":
+    print("Error. Значит продолжаем")
+  
