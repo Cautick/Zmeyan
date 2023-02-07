@@ -1,0 +1,39 @@
+import random
+
+number = 0
+lives = 0
+
+def generate():
+  return random.randint(1, 100)
+
+def guess():
+  guess_num = int(input("Take a guess:\n"))
+  if guess_num < number:
+    print("Wrong. Number is higher")
+    return False
+  if guess_num > number:
+    print("Wrong. Number is lower")
+    return False
+  if guess_num == number:
+    print("Correct. Well played!")
+    return True
+
+print("Guess the number between 1 and 100")
+diff = input("Select difficulty. Easy/Hard\n")
+diff.lower()
+if diff == "easy":
+  lives = 10
+if diff == "hard":
+  lives = 5
+
+number = generate()
+running = True
+while running:
+  if not guess():
+    lives -=1
+    print(f"Lives left: {lives}")
+  else:
+    running = False
+  if lives <= 0:
+    print("You lost")
+    running = False
