@@ -1,0 +1,59 @@
+from art import logo
+from art import vs
+from game_data import data
+from replit import clear
+import random
+
+current = {}
+contester = {}
+score = 0
+
+
+def update(result = ""):
+  global score
+  clear()
+  print(logo)
+  print(result)
+  if result != "You lost":
+    print(f"Score - {score}\nCurrent contester:\n{current['name']}")
+    print(vs)
+    print(f"{contester['name']} - {contester['description']}")
+  elif result == "You lost":
+    print(f"Score - {score}")
+
+  
+def newmatch():
+  global data
+  global current
+  global contester
+  data.remove(current)
+  current = contester
+  contester = random.choice(data)
+
+def compare():
+  global current
+  global contester
+  if current['follower_count'] < contester['follower_count']:
+    return 2
+  if current['follower_count'] > contester['follower_count']:
+    return 1
+
+answer = 0
+running = True
+message = ""
+
+current = random.choice(data)
+contester = random.choice(data)
+update("Welcome")
+
+while running:
+  answer = int(input("What's your choice? \n'1' / '2'\n"))
+  if answer == compare():
+    score += 1
+    message = "Congratulations!"
+  else:
+    message = "You lost"
+    running = False
+  
+  newmatch()
+  update(message)
