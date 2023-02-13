@@ -1,0 +1,93 @@
+PENNY = 0.01
+NICKEL = 0.05
+DIME = 0.1
+QUARTER = 0.25
+
+res = {
+    'water': 200,
+    'milk': 200,
+    'coffee': 100,
+    'money': 0
+}
+
+menu = [
+    {
+        'name': 'espresso',
+        'water': 50,
+        'coffee': 18,
+        'cost': 1.5
+    },
+    {
+        'name': 'latte',
+        'water': 150,
+        'milk': 200,
+        'coffee': 24,
+        'cost': 2.5
+    },
+    {
+        'name': 'cappuccino',
+        'water': 250,
+        'milk': 100,
+        'coffee': 24,
+        'cost': 3
+    }
+]
+
+change = 0
+
+def report():
+    print(f"Water: {res['water']}ml \nMilk: {res['milk']}ml \nCoffee: {res['coffee']}g \nMoney: ${res['money']}")
+
+def payment():
+    q = int(input("Enter quarters: "))
+    d = int(input("Enter dimes: "))
+    n = int(input("Enter nickles: "))
+    p = int(input("Enter pennies: "))
+    return (q*QUARTER)+(d*DIME)+(n*NICKEL)+(p*PENNY)
+
+def check_res(drink = {}):
+    issue = 'none'
+    for key in res:
+        if key in drink:
+            if res[key] < drink[key]:
+                issue = key
+    return issue
+
+def proceed(task, num):
+    global change
+    issue = check_res(menu[num])
+    if issue == 'none':
+        pay = payment()
+        if menu[num]['cost'] <= pay:
+            res['water'] -= menu[num]['water']
+            res['coffee'] -= menu[num]['coffee']
+            if 'milk' in menu[x]:
+                res['milk'] -= menu[num]['milk']
+            res['money'] += menu[num]['cost']
+            change = pay - menu[num]['cost']
+            return 'done'
+        elif menu[num]['cost'] > pay:
+            print("Not enough money. Money refunded")
+            return 'money'
+    elif issue != 'none':
+        print(f"Not enough {issue}")
+        return issue
+
+running = True
+while running:
+    task = input("What would you like? (espresso/latte/cappuccino):\n")
+    state = ""
+    if task == "report":
+        report()
+    elif task == "off":
+        running = False
+    else:
+        for x in range(len(menu)):
+            if task == menu[x]['name']:
+                state = proceed(task, x)
+
+    if state == 'done':
+        print(f"Here is your {task}. Enjoy!")
+        if change > 0:
+            print(f"Here is ${round(change, 3)} dollars in change")
+            change = 0
